@@ -29,20 +29,11 @@ const defaultRoutes = [
 
     const data = req.body
     console.log(data);
-    // if(mongoose.)
-    
-    console.log("seen");
-
     const MyModel = mongoose.model('TestModel', TestModel);
-
-
     const doc = await new MyModel(data)
-
     await doc.save()
-
     console.log(doc);
     res.json({status:"ok"})
-
   })
 }
 ];
