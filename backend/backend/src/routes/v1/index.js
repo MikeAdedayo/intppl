@@ -4,6 +4,8 @@ const userRoute = require('./user.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
+const bcrypt = require("bcryptjs")
+
 const TestModel = require('../../models/test.model');
 
 const router = express.Router();
@@ -28,9 +30,24 @@ const defaultRoutes = [
   ){
 
     const data = req.body
+    
     console.log(data);
+
+
+    if(!data.password){
+      res.json({error:"password not found"});
+    };
+    
+    if(!data.userId){
+      res.json({error:"userId not found"});
+    };
+
+    const password  = await bcrypt.hashSync(myPlaintextPassword, 10);
+    
+
+
     const MyModel = mongoose.model('TestModel', TestModel);
-    const doc = await new MyModel(data)
+    const doc = await new MyModel({...data,password})
     await doc.save()
     console.log(doc);
     res.json({status:"ok"})
